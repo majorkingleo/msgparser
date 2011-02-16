@@ -58,6 +58,11 @@ public class FileAttachment implements Attachment {
 	protected long size = -1;
 		
 
+        /**
+         * Subdir where the attachment was found
+         */
+        protected String subdir = null;
+
 	/**
 	 * @return the extension
 	 */
@@ -141,6 +146,17 @@ public class FileAttachment implements Attachment {
 	public void setSize(long size) {
 		this.size = size;
 	}
+
+        /**
+         * @return the subdir where the attachment was found
+         */
+        public String getSubDir() {
+            return subdir;
+        }
+
+        public void setSubDir( String subdir ) {
+            this.subdir = subdir;
+        }
 	
 	/**
 	 * Sets the property specified by the name
@@ -185,4 +201,5 @@ public class FileAttachment implements Attachment {
 		}
 		return this.filename;
 	}
+
 }

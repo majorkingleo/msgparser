@@ -179,7 +179,7 @@ public class MsgParser {
 		    	// attachments have a special name and
 		    	// have to be handled separately at this point
 			    if (de.getName().startsWith("__attach_version1.0")) {
-			    	this.parseAttachment(de, msg);
+			    	this.parseAttachment(de, msg, de.getName());
 			    } else if (de.getName().startsWith("__recip_version1.0")) {
 			    	// a recipient entry has been found (which is also a directory entry itself)
 			    	this.checkRecipientDirectoryEntry(de, msg);
@@ -313,7 +313,7 @@ public class MsgParser {
 				baos.write(buffer, 0, read);
 			}
 			// ...and create a String object from it
-
+/*
                         byte bytes[] = baos.toByteArray();
 
                         for( int i = 0; i < bytes.length; i++ )
@@ -321,7 +321,7 @@ public class MsgParser {
                             System.out.print(String.format("%d %c,", (int)bytes[i], (char)bytes[i]));
                         }
                           System.out.println();
-
+*/
 			String text = new String(baos.toByteArray(), "ISO-8859-1");                        
 			return text;			
 		} else if (info.getType().equals("001f")) {
@@ -436,7 +436,7 @@ public class MsgParser {
 	 * @throws IOException Thrown if the attachment could
 	 *  not be parsed/read.
 	 */
-	protected void parseAttachment(DirectoryEntry dir, Message msg) throws IOException {
+	protected void parseAttachment(DirectoryEntry dir, Message msg, String directoryName) throws IOException {
 		
 		FileAttachment attachment = new FileAttachment();
 		
@@ -459,7 +459,14 @@ public class MsgParser {
 		    	// entry to the attachment. the attachment implementation
 		    	// has to know the semantics of the field names
 		    	attachment.setProperty(clazz, data, de);
-		    	
+
+                        if( directoryName != null )
+                        {
+                            int index = directoryName.indexOf("#");
+                            if( index > 0 )
+                                attachment.setSubDir(directoryName.substring(index+1));
+                        }
+
 		    } else {
 
 		    	// a directory within the attachment directory
