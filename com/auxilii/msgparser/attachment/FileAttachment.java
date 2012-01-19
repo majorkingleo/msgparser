@@ -63,6 +63,11 @@ public class FileAttachment implements Attachment {
          */
         protected String subdir = null;
 
+        /**
+         * AttachContentId
+         */
+        protected String cid = null;
+        
 	/**
 	 * @return the extension
 	 */
@@ -184,7 +189,9 @@ public class FileAttachment implements Attachment {
     	} else if (name == "370e") {
     		this.setMimeTag((String) value);
     	} else if (name == "3703") {
-    		this.setExtension((String) value);
+    		this.setExtension((String) value);    	
+        } else if (name == "3712") {
+    		this.setCid((String) value);
     	}
 	}
 	
@@ -202,4 +209,12 @@ public class FileAttachment implements Attachment {
 		return this.filename;
 	}
 
+        public void setCid( String cid ) {
+            this.cid = cid;
+        }
+        
+        public String getCid() {
+            return cid;
+        }
+        
 }
