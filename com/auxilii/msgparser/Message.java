@@ -97,7 +97,12 @@ public class Message {
 	 * The body in RTF format (if available)
 	 */
 	protected String bodyRTF = null;
-	
+	        
+	/**
+	 * The body in RTF format (if available)
+	 */
+	protected byte[] bodyCompressedRTF = null;   
+        
 	/**
 	 * Email headers (if available)
 	 */
@@ -193,6 +198,7 @@ public class Message {
     				byte[] decompressedRTF = TNEFUtils.decompressRTF(compressedRTF);
     				// is RTF always in ANSI encoding?
     				this.setBodyRTF(new String(decompressedRTF));
+                                this.setBodyCompressedRTF(compressedRTF);
     			} catch(Exception e) {
     				logger.info( "Could not decompress RTF data "  +  e);
     			}
@@ -561,6 +567,10 @@ public class Message {
 	public void setHeaders(String headers) {
 		this.headers = headers;
 	}
+        
+        public byte[] getBodyCompressesRTF() {
+            return bodyCompressedRTF;
+        }
 	
 	/**
 	 * Parses the message date from the mail headers.
@@ -615,4 +625,8 @@ public class Message {
 	public Object getProperty(String name) {
 		return this.properties.get(name);
 	}
+
+    private void setBodyCompressedRTF(byte[] compressedRTF) {
+        this.bodyCompressedRTF = compressedRTF;
+    }
 }
